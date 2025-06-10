@@ -68,9 +68,29 @@ void Disable_output(void);
 void SPI_comm(int Data, char Ch);
 void writeBit(char pin, int value);
 
+float little_endian2real_number();// 将小端字节序转换为实数
+void signal_type_judge(void);// 判断信号类型
+void output_control(void);// 输出控制函数
+
+//构造通道数据结构体
+typedef struct 
+{
+    int signal_type; // 0:正弦波, 1:方波, 2:锯齿波, 3:三角波
+    float frequency; // 频率
+    float amplitude; // 振幅
+    float offset; // 偏置
+    float duty; // 占空比
+}channel_data
+
+
 
 int main()
 {
+
+    //生成两个通道数据结构体
+    channel_data ch1_data, ch2_data;
+
+
     wave_type = 0;
     frequency = 1000;
     phase = 0;
@@ -78,13 +98,6 @@ int main()
     amplitude = 1;
     offset = 0;
     channel = 0;
-
-    // //初始化GPIO
-    // XGpio_Config *ConfigPtr = XGpio_LookupConfig(GPIO_DEVICE_ID);
-    // int status = XGpio_CfgInitialize(&s_Gpio, ConfigPtr, ConfigPtr->BaseAddress);
-
-    // if(status != XST_SUCCESS)
-    //     return XST_FAILURE;
 
     // 设置GPIO方向为输出
     Xil_Out8(GPIO1_SET_ADDR, 0x00);
@@ -299,137 +312,200 @@ void Disable_output(void)
 }
 
 
-
-void Recv_Process(void)
+void signal_type_judge
 {
-    if (strcmp((char *)instrReg, "sin") == 0)
+    //如果是选择信号类型的指令
+    if(usize >= 8 && u(0) == 0x55 && u(1) == 0xAA && u(6) == 0x0D && u(7) == 0x0A)
     {
-        // xil_printf("Output SIN wave.\n");
-        wave_type = 0;
-        set_wave_type();
-        set_sin_amp();
-        set_sin_freq();
-    }
-    else if (strcmp((char *)instrReg, "squ") == 0)
-    {
-        // xil_printf("Output SQUARE wave.\n");
-        wave_type = 2;
-        set_wave_type();
-        set_squ_amp();
-        set_squ_duty();
-        set_squ_freq();
-    }
-    else if (strcmp((char *)instrReg, "tri") == 0)
-    {
-        // xil_printf("Output TRIANGLE wave.\n");
-        wave_type = 1;
-        set_wave_type();
-        set_saw_amp();
-        set_saw_freq_and_duty();
-    }
-    else if (strcmp((char *)instrReg, "fre") == 0)
-    {
-        // xil_printf("Adjust FREQUENCY to %d Hz.\n",*(int*)(dataReg));
-        frequency = (float)(*(int *)(dataReg));
-        switch (wave_type)
+        //先判断u(3)的值，以确定波形类型
+        if(u(3) == 0xAD) // 正弦波
         {
-        case 0:
-            set_sin_freq();
-            break;
-        case 1:
-            set_saw_freq_and_duty();
-            break;
-        case 2:
-            set_squ_freq();
-            set_squ_duty();
-            break;
-        default:
-            break;
+            wave_type = 0;
         }
-    }
-    else if (strcmp((char *)instrReg, "amp") == 0)
-    {
-        // xil_printf("Adjust AMPLITUDE to %d mV.\n",*(int*)(dataReg));
-        amplitude = *(int *)(dataReg) / 1000.0;
-        switch (wave_type)
+        else if(u(3) == 0x96) // 锯齿波
         {
-        case 0:
-            set_sin_amp();
-            // set_offset();
-            break;
-        case 1:
-            set_saw_amp();
-            // set_offset();
-            break;
-        case 2:
-            set_squ_amp();
-            // set_offset();
-            break;
-        default:
-            break;
+            wave_type = 1;
         }
-    }
-    else if (strcmp((char *)instrReg, "set") == 0)
-    {
-        // xil_printf("Adjust OFFSET to %d mV.\n",*(int*)(dataReg));
-        offset = *(int *)(dataReg) / 1000.0;
-        set_offset();
-    }
-    else if (strcmp((char *)instrReg, "dut") == 0)
-    {
-        // xil_printf("Adjust DUTY to %d per cent.\n",*(int*)(dataReg));
-        duty = (float)(*(int *)(dataReg));
-        switch (wave_type)
+        else if(u(3) == 0x94) // 方波
         {
-        case 1:
-            set_saw_freq_and_duty();
-            break;
-        case 2:
-            set_squ_duty();
-            break;
-        default:
-            break;
+            wave_type = 2;
         }
+        else if(u(3) == 0xB8) // 三角波
+        {
+            wave_type = 3;
+        }
+
+        channel1_data.signal_type = wave_type;
+        udelete(8);
+
     }
-    else if (strcmp((char *)instrReg, "ena") == 0)
+    else if(usize >= 8 && u(0) == 0x55 && u(1) == 0xAB && u(6) == 0x0D && u(7) == 0x0A)
     {
-        // xil_printf("OUTPUT ENABLE.\n");
-        Enable_output();
+        //先判断u(3)的值，以确定波形类型
+        if(u(3) == 0xAD) // 正弦波
+        {
+            wave_type = 0;
+        }
+        else if(u(3) == 0x96) // 锯齿波
+        {
+            wave_type = 1;
+        }
+        else if(u(3) == 0x94) // 方波
+        {
+            wave_type = 2;
+        }
+        else if(u(3) == 0xB8) // 三角波
+        {
+            wave_type = 3;
+        }
+
+        channel2_data.signal_type = wave_type;
+        udelete(8);
     }
-    else if (strcmp((char *)instrReg, "dis") == 0)
+
+    set_wave_type(); // 设置波形类型
+
+}
+
+
+float little_endian2real_number()
+{
+    uint32_t value = 0;
+
+    value |= (uint32_t)u(2 + 0) <<  0; // byte0 - LSB
+    value |= (uint32_t)u(2 + 1) <<  8; // byte1
+    value |= (uint32_t)u(2 + 2) << 16; // byte2
+    value |= (uint32_t)u(2 + 3) << 24; // byte3 - MSB
+
+    float result = (float)value / 100.0f;
+
+    udelete(8); // 删除前8字节
+
+    return result;
+}
+
+void output_control()
+{
+    //如果是channel1的输出控制指令
+    if(usize >= 8 && u(0) == 0x55 && u(1) == 0xBA && u(6) == 0x0D && u(7) == 0x0A)
     {
-        // xil_printf("OUTPUT DISABLE.\n");
-        Disable_output();
+        channel1_data.frequency = little_endian2real_number(); // 读取频率
+        channel1_data.amplitude = little_endian2real_number(); // 读取振幅
+        channel1_data.offset = little_endian2real_number(); // 读取偏置
+        channel1_data.duty = little_endian2real_number(); // 读取占空比
+
+        frequency = channel1_data.frequency;
+        amplitude = channel1_data.amplitude;
+        offset = channel1_data.offset;
+        duty = channel1_data.duty;
+
+        channel = 0; // 设置当前通道为1
+        set_wave_type(); // 设置波形类型
+        set_offset(); // 设置偏置
+        if(wave_type == 0) // 正弦波
+        {
+            set_sin_freq(); // 设置频率
+            set_sin_amp(); // 设置振幅
+            set_sin_pha(); // 设置相位
+        }
+        else if(wave_type == 1) // 锯齿波
+        {
+            set_saw_freq_and_duty(); // 设置频率和占空比
+            set_saw_amp(); // 设置振幅
+            set_saw_pha(); // 设置相位
+        }
+        else if(wave_type == 2) // 方波
+        {
+            set_squ_freq(); // 设置频率
+            set_squ_amp(); // 设置振幅
+            set_squ_duty(); // 设置占空比
+            set_squ_pha(); // 设置相位
+        }
+        else if(wave_type == 3) // 三角波
+        {
+            set_saw_freq_and_duty(); // 设置频率和占空比
+            set_saw_amp(); // 设置振幅
+            set_saw_pha(); // 设置相位
+        }
+
+        Enable_output(); // 开启输出
     }
-    else
+    //如果是channel2的输出控制指令
+    else if(usize >= 8 && u(0) == 0x55 && u(1) == 0xBB && u(6) == 0x0D && u(7) == 0x0A)
     {
-        // xil_printf("ERROR.\n");
-        Disable_output();
+        channel2_data.frequency = little_endian2real_number(); // 读取频率
+        channel2_data.amplitude = little_endian2real_number(); // 读取振幅
+        channel2_data.offset = little_endian2real_number(); // 读取偏置
+        channel2_data.duty = little_endian2real_number(); // 读取占空比
+
+        frequency = channel2_data.frequency;
+        amplitude = channel2_data.amplitude;  
+        offset = channel2_data.offset;
+        duty = channel2_data.duty;
+
+        channel = 1; // 设置当前通道为2
+        set_wave_type(); // 设置波形类型
+        set_offset(); // 设置偏置
+        if(wave_type == 0) // 正弦波
+        {
+            set_sin_freq(); // 设置频率
+            set_sin_amp(); // 设置振幅
+            set_sin_pha(); // 设置相位
+        }
+        else if(wave_type == 1) // 锯齿波
+        {
+            set_saw_freq_and_duty(); // 设置频率和占空比
+            set_saw_amp(); // 设置振幅
+            set_saw_pha(); // 设置相位
+        }
+        else if(wave_type == 2) // 方波
+        {
+            set_squ_freq(); // 设置频率
+            set_squ_amp(); // 设置振幅
+            set_squ_duty(); // 设置占空比
+            set_squ_pha(); // 设置相位
+        }
+        else if(wave_type == 3) // 三角波
+        {
+            set_saw_freq_and_duty(); // 设置频率和占空比
+            set_saw_amp(); // 设置振幅
+            set_saw_pha(); // 设置相位
+        }
+
+        Enable_output(); // 开启输出
     }
+
 }
 
 //串口屏控制逻辑
 void TJC_USART(void)
 {
-  while (usize >= 6)
-  {
-		// 校验帧头帧尾是否匹配
-		if (u(0) != 0x55 || u(3) != 0xff || u(4) != 0xff || u(5) != 0xff)
-		{
-			// 不匹配删除1字节
-			udelete(1);
-		}
-		else
-		{
-		// 匹配，跳出循环
-		break;
-		}
-  }
+    while (usize >= 8)
+    {
+        // 校验帧头帧尾是否匹配
+        if (u(0) != 0x55 || u(6) != 0x0D || u(7) != 0x0A)
+        {
+            // 不匹配删除1字节
+            udelete(1);
+        }
+        else
+        {
+            // 匹配，跳出循环
+            break;
+        }
+    }
 
+    // 判断信号类型
+    signal_type_judge();
+    // 输出控制
+    output_control();
+  
+  
 
-		// 进行解析
+ 
+
 	if (usize >= 6 && u(0) == 0x55 && u(3) == 0xff && u(4) == 0xff && u(5) == 0xff) {
-		if ((u(1) == 0x00))//ch1输出
+		if ((u(1) == 0xBA))//ch1输出
 		{
             
             channel = 0;
@@ -463,7 +539,7 @@ void TJC_USART(void)
             
 		  
 		}
-		else if (u(1) == 0x01)//ch2输出
+		else if (u(1) == 0xBB)//ch2输出
 		{
             channel = 1;
             wave_type = u(2); // 波形类型
