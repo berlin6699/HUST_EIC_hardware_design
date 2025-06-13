@@ -1,0 +1,25 @@
+#ifndef _DDS_H_
+#define _DDS_H_
+#include "xil_types.h"
+#include "xstatus.h"
+#define DDS_BASEADDR XPAR_USER_DUAL_DDS_0_BASEADDR
+
+#define SINE_WAVE 0
+#define TRIANGLE_WAVE 1
+#define SQUARE_WAVE 2
+
+#define DDS_CHANNEL_OFFSET 32
+
+#define DDS_WAVE_TYPE_OFFSET 0
+#define DDS_AMP_WORD_OFFSET 4
+#define DDS_PHA_WORD_OFFSET 8
+#define DDS_SIN_FREQ_WORD_OFFSET 12
+#define DDS_TRI_INCRE_WORD_OFFSET 16
+#define DDS_TRI_DECRE_WORD_OFFSET 20
+#define DDS_SQR_CNT_WORD_OFFSET 24
+#define DDS_SQR_CMP_WORD_OFFSET 28
+
+#define DDS_CONTROL_WORD_OFFSET 64
+
+
+#endif  // _DDS_H_

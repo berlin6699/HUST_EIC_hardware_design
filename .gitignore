@@ -58,4 +58,7 @@ yarn.lock
 !/FPGA/xilinx/zynq-dsp-system.srcs
 !/FPGA/xilinx/zynq-dsp-system.xpr
 !/FPGA/xilinx/dsp_0613_1828.xsa
+
+# 保留 vitis 中的特定 src 目录，需要逐层取消忽略中间目录
+!/FPGA/vitis/dsp_0613_1828_app
 !/FPGA/vitis/dsp_0613_1828_app/src
