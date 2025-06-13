@@ -1,0 +1,53 @@
+# 忽略所有操作系统自动生成的文件
+.DS_Store
+Thumbs.db
+
+# 忽略 node_modules（Node.js 项目）
+/node_modules/
+
+# 忽略构建输出目录
+/dist/
+/build/
+/out/
+/public_html/
+/vendor/
+
+# 忽略日志文件和调试文件
+*.log
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# 忽略编辑器配置与缓存
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 忽略依赖包锁文件（除非你想提交它们）
+package-lock.json
+yarn.lock
+
+# 忽略环境变量文件
+.env
+.env.local
+.env.development
+.env.production
+
+# 忽略系统备份文件
+*~
+*.bak
+
+# 忽略压缩包
+*.zip
+*.tar.gz
+*.rar
+
+# 忽略数据库相关文件（例如 SQLite）
+*.sqlite
+*.db
+
+# 忽略 IDE 的缓存目录
+/.cache/
+/.tmp/
