@@ -1,0 +1,89 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"1.43615",
+   "Default View_TopLeft":"1180,606",
+   "DisplayPinsOfHiddenNets":"1",
+   "DisplayTieOff":"1",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.5.8 2022-09-21 7111 VDI=41 GEI=38 GUI=JA:10.0 threadsafe
+#  -string -flagsOSRD
+preplace port UART0 -pg 1 -lvl 6 -x 1980 -y 120 -defaultsOSRD
+preplace port UART1 -pg 1 -lvl 6 -x 1980 -y 140 -defaultsOSRD
+preplace port DDR -pg 1 -lvl 6 -x 1980 -y 80 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -lvl 6 -x 1980 -y 100 -defaultsOSRD
+preplace port port-id_sck1 -pg 1 -lvl 6 -x 1980 -y 1160 -defaultsOSRD
+preplace port port-id_sck2 -pg 1 -lvl 6 -x 1980 -y 1180 -defaultsOSRD
+preplace port port-id_mosi1 -pg 1 -lvl 6 -x 1980 -y 1200 -defaultsOSRD
+preplace port port-id_mosi2 -pg 1 -lvl 6 -x 1980 -y 1220 -defaultsOSRD
+preplace port port-id_ss1 -pg 1 -lvl 6 -x 1980 -y 1240 -defaultsOSRD
+preplace port port-id_ss2 -pg 1 -lvl 6 -x 1980 -y 1260 -defaultsOSRD
+preplace port port-id_adc_clkp -pg 1 -lvl 6 -x 1980 -y 380 -defaultsOSRD
+preplace port port-id_adc_clkn -pg 1 -lvl 6 -x 1980 -y 20 -defaultsOSRD
+preplace port port-id_dac1_clkp -pg 1 -lvl 6 -x 1980 -y 1020 -defaultsOSRD
+preplace port port-id_dac1_clkn -pg 1 -lvl 6 -x 1980 -y 1060 -defaultsOSRD
+preplace port port-id_dac2_clkp -pg 1 -lvl 6 -x 1980 -y 1040 -defaultsOSRD
+preplace port port-id_dac2_clkn -pg 1 -lvl 6 -x 1980 -y 1080 -defaultsOSRD
+preplace port port-id_C1K1 -pg 1 -lvl 6 -x 1980 -y 680 -defaultsOSRD
+preplace port port-id_C1K2 -pg 1 -lvl 6 -x 1980 -y 700 -defaultsOSRD
+preplace port port-id_C2K1 -pg 1 -lvl 6 -x 1980 -y 720 -defaultsOSRD
+preplace port port-id_C2K2 -pg 1 -lvl 6 -x 1980 -y 740 -defaultsOSRD
+preplace portBus adc_data -pg 1 -lvl 0 -x -10 -y 750 -defaultsOSRD
+preplace portBus dac1_data -pg 1 -lvl 6 -x 1980 -y 800 -defaultsOSRD
+preplace portBus dac2_data -pg 1 -lvl 6 -x 1980 -y 960 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 4 -x 1420 -y 140 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 2 -x 550 -y 510 -defaultsOSRD
+preplace inst rst_ps7_0_100M -pg 1 -lvl 1 -x 210 -y 380 -defaultsOSRD
+preplace inst ADC_FFT_DMA -pg 1 -lvl 3 -x 970 -y 380 -defaultsOSRD
+preplace inst clk_wiz_0 -pg 1 -lvl 4 -x 1420 -y 1050 -defaultsOSRD
+preplace inst PL_SPI -pg 1 -lvl 4 -x 1420 -y 1210 -defaultsOSRD
+preplace inst user_dual_dds_0 -pg 1 -lvl 4 -x 1420 -y 890 -defaultsOSRD
+preplace inst ila_0 -pg 1 -lvl 5 -x 1850 -y 880 -defaultsOSRD
+preplace inst FREQ_CNT -pg 1 -lvl 3 -x 970 -y 590 -defaultsOSRD
+preplace inst amp_ctl_div_0 -pg 1 -lvl 5 -x 1850 -y 710 -defaultsOSRD
+preplace inst amp_ctl -pg 1 -lvl 3 -x 970 -y 780 -defaultsOSRD
+preplace netloc ADC_FFT_DMA_adc_clkp 1 3 3 NJ 380 NJ 380 NJ
+preplace netloc ADC_FFT_DMA_locked 1 2 2 820 280 1110
+preplace netloc adc_data_1 1 0 3 NJ 750 NJ 750 810
+preplace netloc amp_ctl_div_0_c1k1 1 5 1 NJ 680
+preplace netloc amp_ctl_div_0_c1k2 1 5 1 NJ 700
+preplace netloc amp_ctl_div_0_c2k1 1 5 1 NJ 720
+preplace netloc amp_ctl_div_0_c2k2 1 5 1 NJ 740
+preplace netloc axi_dma_0_s2mm_introut 1 3 1 1150 180n
+preplace netloc axi_gpio_0_gpio_io_o 1 3 2 1190 710 NJ
+preplace netloc clk_wiz_0_clk_100Mn 1 3 3 1190 980 1660 1060 1960J
+preplace netloc clk_wiz_0_clk_100Mp 1 4 2 NJ 1040 1960J
+preplace netloc clk_wiz_1_clk_10Mn 1 2 4 830 250 1140 10 NJ 10 1960J
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 5 30 280 380 260 790 260 1180 270 1660
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 5 20 240 NJ 240 NJ 240 1190J 260 1650
+preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 1 3 390 270 770 270 1130
+preplace netloc spi_div_0_mosi1 1 4 2 NJ 1200 NJ
+preplace netloc spi_div_0_mosi2 1 4 2 NJ 1220 NJ
+preplace netloc spi_div_0_sck1 1 4 2 NJ 1160 NJ
+preplace netloc spi_div_0_sck2 1 4 2 NJ 1180 NJ
+preplace netloc spi_div_0_ss1 1 4 2 NJ 1240 NJ
+preplace netloc spi_div_0_ss2 1 4 2 NJ 1260 NJ
+preplace netloc user_dual_dds_0_dac_out1 1 4 2 1650 800 NJ
+preplace netloc user_dual_dds_0_dac_out2 1 4 2 1730 960 NJ
+preplace netloc axi_mem_intercon_M00_AXI 1 3 1 1120 120n
+preplace netloc processing_system7_0_DDR 1 4 2 NJ 80 NJ
+preplace netloc processing_system7_0_FIXED_IO 1 4 2 NJ 100 NJ
+preplace netloc processing_system7_0_M_AXI_GP0 1 1 4 400 20 NJ 20 NJ 20 1650
+preplace netloc processing_system7_0_UART_0 1 4 2 NJ 120 NJ
+preplace netloc processing_system7_0_UART_1 1 4 2 NJ 140 NJ
+preplace netloc ps7_0_axi_periph_M00_AXI 1 2 2 800 470 1150J
+preplace netloc ps7_0_axi_periph_M01_AXI 1 2 1 700 340n
+preplace netloc ps7_0_axi_periph_M02_AXI 1 2 1 780 360n
+preplace netloc ps7_0_axi_periph_M03_AXI 1 2 2 780 700 1140J
+preplace netloc ps7_0_axi_periph_M04_AXI 1 2 1 N 530
+preplace netloc ps7_0_axi_periph_M05_AXI 1 2 1 N 550
+preplace netloc ps7_0_axi_periph_M06_AXI 1 2 1 700 570n
+levelinfo -pg 1 -10 210 550 970 1420 1850 1980
+pagesize -pg 1 -db -bbox -sgen -160 0 2560 1690
+"
+}
+{
+   "da_axi4_cnt":"8",
+   "da_board_cnt":"1",
+   "da_clkrst_cnt":"1",
+   "da_ps7_cnt":"1"
+}

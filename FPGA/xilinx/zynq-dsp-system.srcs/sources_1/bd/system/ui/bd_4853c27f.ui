@@ -1,0 +1,43 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"1.50737",
+   "Default View_TopLeft":"-167,-1",
+   "DisplayPinsOfHiddenNets":"1",
+   "DisplayTieOff":"1",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.5.8 2022-09-21 7111 VDI=41 GEI=38 GUI=JA:10.0
+#  -string -flagsOSRD
+preplace port S_AXI_LITE -pg 1 -lvl 0 -x 0 -y 410 -defaultsOSRD
+preplace port S00_AXI -pg 1 -lvl 0 -x 0 -y 70 -defaultsOSRD
+preplace port M00_AXI -pg 1 -lvl 5 -x 1460 -y 490 -defaultsOSRD
+preplace port port-id_aclk -pg 1 -lvl 0 -x 0 -y 170 -defaultsOSRD
+preplace port port-id_m00_axis_aresetn -pg 1 -lvl 0 -x 0 -y 150 -defaultsOSRD
+preplace port port-id_s2mm_introut -pg 1 -lvl 5 -x 1460 -y 750 -defaultsOSRD
+preplace port port-id_adc_clkp -pg 1 -lvl 5 -x 1460 -y 670 -defaultsOSRD
+preplace port port-id_adc_clkn -pg 1 -lvl 5 -x 1460 -y 690 -defaultsOSRD
+preplace portBus adc_data -pg 1 -lvl 0 -x 0 -y 130 -defaultsOSRD
+preplace inst const1_1b1 -pg 1 -lvl 1 -x 190 -y 340 -defaultsOSRD
+preplace inst axi_dma_0 -pg 1 -lvl 3 -x 950 -y 450 -defaultsOSRD
+preplace inst xfft_0 -pg 1 -lvl 2 -x 550 -y 290 -defaultsOSRD
+preplace inst ltc2220_sample_0 -pg 1 -lvl 1 -x 190 -y 140 -defaultsOSRD
+preplace inst axi_mem_intercon -pg 1 -lvl 4 -x 1290 -y 490 -defaultsOSRD
+preplace inst clk_wiz_1 -pg 1 -lvl 4 -x 1290 -y 670 -defaultsOSRD
+preplace netloc const_1b1_dout 1 1 1 330 290n
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 4 20 400 350 420 750 550 1130
+preplace netloc rst_ps7_0_100M_peripheral_aresetn 1 0 4 30 270 330J 160 780 350 1140
+preplace netloc axi_dma_0_s2mm_introut 1 3 2 1120J 750 NJ
+preplace netloc adc_data_1 1 0 1 NJ 130
+preplace netloc clk_wiz_1_clk_10Mp 1 4 1 NJ 670
+preplace netloc clk_wiz_1_clk_10Mn 1 0 5 50 280 340J 170 760J 760 NJ 760 1440
+preplace netloc clk_wiz_1_locked 1 0 5 40 10 NJ 10 NJ 10 NJ 10 1440
+preplace netloc axi_dma_0_M_AXI_S2MM 1 3 1 N 430
+preplace netloc xfft_0_M_AXIS_DATA 1 2 1 770 230n
+preplace netloc ltc2220_sample_0_M00_AXIS 1 1 1 350 140n
+preplace netloc ps7_0_axi_periph_M01_AXI 1 0 3 NJ 410 NJ 410 NJ
+preplace netloc ps7_0_axi_periph_M02_AXI 1 0 1 NJ 70
+preplace netloc axi_mem_intercon_M00_AXI 1 4 1 NJ 490
+levelinfo -pg 1 0 190 550 950 1290 1460
+pagesize -pg 1 -db -bbox -sgen -170 0 1600 770
+"
+}
+
